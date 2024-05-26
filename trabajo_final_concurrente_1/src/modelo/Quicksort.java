@@ -31,12 +31,13 @@ public class Quicksort extends Thread {
 	           
 	            while(i<j)
 	            {
+		// Encuentra el primer elemento mayor que el pivote desde la izquierda
 	               while (numeros[i] <= pivote && i < j) 
 	                  i++;
-
+		// Encuentra el primer elemento menor o igual que el pivote desde la derecha
 	               while (numeros[j] > pivote) 
 	                  j--;   
-
+		 // Si aún no se han cruzado los índices, intercambia los elementos
 	               if (i<j) 
 	               {                                     
 	                   aux = numeros[i];                  
@@ -44,13 +45,13 @@ public class Quicksort extends Thread {
 	                   numeros[j]=aux;
 	               }
 	            }
-
+		 // Coloca el pivote en su lugar definitivo
 	             numeros[izq] = numeros[j]; 
 	             numeros[j] = pivote;
-
+		// Ordena recursivamente la sublista a la izquierda del pivote
 	             if (izq < j-1)
 	                Quicksort(numeros,izq,j-1);
-
+		// Ordena recursivamente la sublista a la derecha del pivote
 	             if (j+1 < der)
 	                Quicksort(numeros,j+1,der);
 
