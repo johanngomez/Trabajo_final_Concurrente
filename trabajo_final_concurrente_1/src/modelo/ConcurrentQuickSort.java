@@ -1,5 +1,6 @@
 package modelo;
 
+// La clase ConcurrentQuickSort implementa Runnable para permitir la ejecución de hilos
 public class ConcurrentQuickSort implements Runnable {
 	
 	// Declaración de variables de instancia para el arreglo, los límites izquierdo y derecho del subarreglo
@@ -15,7 +16,7 @@ public class ConcurrentQuickSort implements Runnable {
     }
 
     
- // Método run() que ejecuta la ordenación concurrente
+ // Método run que ejecuta la ordenación concurrente
     @Override
     public void run() {
     	// Verifica si hay elementos en el subarreglo
@@ -23,15 +24,15 @@ public class ConcurrentQuickSort implements Runnable {
         	// Obtiene el índice del pivote
             int pivotIndex = partition(array, left, right);
             
-         // Crea dos sub-tareas para ordenar las subparticiones izquierda y derecha
+         // Crea dos subtareas para ordenar las subparticiones izquierda y derecha
             Thread leftThread = new Thread(new ConcurrentQuickSort(array, left, pivotIndex - 1));
             Thread rightThread = new Thread(new ConcurrentQuickSort(array, pivotIndex + 1, right));
             
-         // Inicia las sub-tareas
+         // Inicia las subtareas
             leftThread.start();
             rightThread.start();
             try {
-            	// Espera a que las sub-tareas terminen
+            	// Espera a que las subtareas terminen
                 leftThread.join();
                 rightThread.join();
             } catch (InterruptedException e) {
@@ -45,28 +46,39 @@ public class ConcurrentQuickSort implements Runnable {
     
  // Método que realiza la partición del arreglo y devuelve el índice del pivote
     private int partition(int[] array, int left, int right) {
-        int pivot = array[left];
+        // Selecciona el pivote.
+	int pivot = array[left];
+	// Inicializa el índice izquierdo.
         int i = left;
+	// Inicializa el índice derecho.
         int j = right;
+	    
         while (i < j) {
             while (i < j && array[i] <= pivot) {
+		// Incrementa el índice izquierdo hasta encontrar un valor mayor que el pivote.
                 i++;
             }
             while (array[j] > pivot) {
+		// Decrementa el índice derecho hasta encontrar un valor menor o igual que el pivote.
                 j--;
             }
             if (i < j) {
+		// Intercambia los elementos en los índices i y j
                 swap(array, i, j);
             }
         }
+	// Coloca el pivote en su posición correcta.
         swap(array, left, j);
         return j;
     }
 
  // Método auxiliar para intercambiar dos elementos en el arreglo
     private void swap(int[] array, int i, int j) {
+	// Almacena temporalmente el valor en array[i].
         int temp = array[i];
+	// Asigna el valor de array[j] a array[i].
         array[i] = array[j];
+	// Asigna el valor almacenado temporalmente a array[j].
         array[j] = temp;
     }
 
